@@ -24,6 +24,7 @@
           video.srcObject = stream;
       }
       function onfail(error) {
+
           console.log("permission not granted or system don't have media devices."+error.name);
           var showCamPermission = document.getElementById("giveCamPermission");
           showCamPermission.innerText = "Give Safari permission to access your camera and microphone";
@@ -43,7 +44,9 @@
 
 
 
-      navigator.mediaDevices.getUserMedia({audio:true,video:true}, gotStream,onfail);
+      navigator.mediaDevices.getUserMedia({audio:true,video:true})
+        .then(gotStream())
+        .catch(onfail())
       
   </script>
 
