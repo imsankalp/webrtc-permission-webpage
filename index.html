@@ -35,10 +35,12 @@
         //Fetch Location
         if (navigator.geolocation) {
           //If location found
+          console.log("location found");
           getLocPermission.innerText = "Loc Permission given";
         } else { 
           //If location not found
           getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
+          console.log("location NOT found");
       }
     }
 
