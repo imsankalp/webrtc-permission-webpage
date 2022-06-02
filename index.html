@@ -7,6 +7,7 @@
     <title>Document</title>
     <script  src="./adapter.js"></script>
     <script type="text/javascript">
+
       function gotStream(stream) {
           window.AudioContext = window.AudioContext || window.webkitAudioContext;
           var audioContext = new AudioContext();
@@ -24,16 +25,32 @@
       }
       function onfail(error) {
           console.log("permission not granted or system don't have media devices."+error.name);
+          var showCamPermission = document.getElementById("giveCamPermission");
+          showCamPermission.innerText = "Give Safari permission to access your camera and microphone";
       }
+
+      function getLocation() {
+
+        var showLocation = document.getElementById("giveLocPermission")
+        //Fetch Location
+        if (navigator.geolocation) {
+          //If location found
+        } else { 
+          //If location not found
+          getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
+      }
+    }
+
+
+
       navigator.mediaDevices.getUserMedia({audio:true,video:true}, gotStream,onfail);
-      
       
   </script>
 
 </head>
 <body>
-    <h1 id="getLocation" style = 'text-align: center;'>VKYC</h1>
-    <video id="local" autoplay=""></video>
+    <h1 id="getLocation" style = 'text-align: center;'>One Card VKYC</h1>
+    <video id="local" autoplay></video>
     <p id="giveCamPermission"></p>
     <p id="giveLocPermission"></p>
     <!-- <iframe src="https://webrtc.github.io/samples/src/content/devices/input-output/
