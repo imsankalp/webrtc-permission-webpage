@@ -45,8 +45,12 @@
 
 
       navigator.mediaDevices.getUserMedia({audio:true,video:true})
-        .then(gotStream(stream))
-        .catch(onfail(error));
+        .then((stream) => {
+          gotStream(stream);
+        })
+        .catch((error) => {
+          onfail(error);
+        });
         getLocation();
       
   </script>
