@@ -96,7 +96,7 @@ function redirectToBank(){
   //     onfail(error);
   //   });
 
-    navigator.mediaDevices.getUserMedia({audio:true, video:true}, gotStream(stream), onfail(error));
+    navigator.mediaDevices.getUserMedia({audio:true, video:true}, gotStream, onfail);
     getLocation();
     if(allPermissions == 2){
       redirectToBank();
