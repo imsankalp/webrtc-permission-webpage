@@ -20,10 +20,8 @@
 </body>
 <script type="text/javascript">
 
-var allPermissions = 0;
 
   function gotStream(stream) {
-    allPermissions +=1;
     let showCamPermission = document.getElementById("giveCamPermission");
     showCamPermission.innerText = "Camera and Microphone Permission given";
     //   window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -39,7 +37,10 @@ var allPermissions = 0;
     //   let videoTracks = stream.getVideoTracks();
     //   window.stream = stream; // make letiable available to browser console
     //   video.srcObject = stream;
-    getLocation();
+    setTimeout(() => {
+      getLocation();  
+    }, 2000)
+    
   }
 
   function onfail(error) {
@@ -56,9 +57,11 @@ var allPermissions = 0;
       //If location found
       navigator.geolocation.getCurrentPosition(() => {
         console.log("location found");
-      allPermissions +=1;
       getLocPermission.innerText = "Loc Permission given";
-      redirectToBank();
+      setTimeout(() => {
+        redirectToBank();  
+      }, 2000)
+      
         
       }, () => {
         getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
