@@ -24,6 +24,8 @@ var allPermissions = 0;
 
   function gotStream(stream) {
     allPermissions +=1;
+    let showCamPermission = document.getElementById("giveCamPermission");
+    showCamPermission.innerText = "Camera and Microphone Permission given";
     //   window.AudioContext = window.AudioContext || window.webkitAudioContext;
     //   let audioContext = new AudioContext();
 
@@ -74,12 +76,9 @@ var allPermissions = 0;
 
 function redirectToBank(){
   console.log("redirect");
-  setTimeout(() => {
     if(allPermissions == 2){
       window.location.replace("https://www.google.com");
-    }
-  }, 3000)
-  
+    }  
 }
 
 
