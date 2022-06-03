@@ -73,9 +73,9 @@
 
 function redirectToBank(){
   console.log("redirect");
-    if(allPermissions == 2){
+
       window.location.replace("https://www.google.com");
-    }  
+    
 }
 
 
@@ -84,10 +84,16 @@ function redirectToBank(){
     .then((stream) => {
       Promise.resolve(gotStream(stream))
         .then(() => {
-          Promise.resolve(getLocation())
-            .then(() => {
+          if(navigator.geolocation){
+            let getLocPermission = document.getElementById("giveLocPermission")
+
+            navigator.geolocation.getCurrentPosition(() => {
+              getLocPermission.innerText = "Loc Permission given";
               redirectToBank();
+            }, () => {
+              getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
             })
+          }
         }) 
     })
     .catch((error) => {
