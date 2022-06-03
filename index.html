@@ -6,56 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script  src="./adapter.js"></script>
-    <script type="text/javascript">
-
-      function gotStream(stream) {
-          window.AudioContext = window.AudioContext || window.webkitAudioContext;
-          var audioContext = new AudioContext();
-
-          // Create an AudioNode from the stream
-          var mediaStreamSource = audioContext.createMediaStreamSource(stream);
-
-          // Connect it to destination to hear yourself
-          // or any other node for processing!
-          mediaStreamSource.connect(audioContext.destination);
-          var video = document.querySelector('video');
-          var videoTracks = stream.getVideoTracks();
-          window.stream = stream; // make variable available to browser console
-          video.srcObject = stream;
-      }
-      function onfail(error) {
-          console.log("permission not granted or system don't have media devices."+error.name);
-          var showCamPermission = document.getElementById("giveCamPermission");
-          showCamPermission.innerText = "Give Safari permission to access your camera and microphone";
-      }
-
-      function getLocation() {
-
-        var getLocPermission = document.getElementById("giveLocPermission")
-        //Fetch Location
-        if (navigator.geolocation) {
-          //If location found
-          console.log("location found");
-          getLocPermission.innerText = "Loc Permission given";
-        } else { 
-          //If location not found
-          getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
-          console.log("location NOT found");
-      }
-    }
-
-
-
-      navigator.mediaDevices.getUserMedia({audio:true,video:true})
-        .then((stream) => {
-          gotStream(stream);
-        })
-        .catch((error) => {
-          onfail(error);
-        });
-        getLocation();
-      
-  </script>
 
 </head>
 <body>
@@ -68,56 +18,65 @@
     " title="checking" allow="camera; microphone"></iframe> -->
 
 </body>
-<!-- <script>
-    var getLoc = document.getElementById("getLocation");
-    var getCamPermission = document.getElementById("giveCamPermission");
-    var getLocPermission = document.getElementById("giveLocPermission");
-    
-    function getLocation() {
+<script type="text/javascript">
 
-        //Fetch Location
-      if (navigator.geolocation) {
-          //If location found
-          getLocPermission.innerText = "Loc Permission given";
-      } else { 
-          //If location not found
-          getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
-      }
-    }
+var allPermissions = 0;
 
-    function checkCameraPermission(){
-      navigator.permissions.query({ name: "camera" }).then(res => {
-        console.log(res.state);
-        if(res.state != "denied"){
-            // has permission
-          getCamPermission.innerText = res.state;
-        } else {
-          getCamPermission.innerText = "Cam permission NOT given";
-        }
-      });
-    }
-    function checkCameraPermission2(){
-      console.log(navigator);
-      if(navigator.mediaDevices != undefined) {
-  //Req microphone permissions
-        navigator.mediaDevices.getUserMedia({audio: true}).then(function(stream) {
-          // Mic permissions granted, handle however you wish
-          getCamPermission.innerText = "Cam permission  given";
+  function gotStream(stream) {
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      allPermissions +=1;
+      var audioContext = new AudioContext();
 
-        }).catch(function(err) {
-          // Mic permissions denied, handle however you wish
-          getCamPermission.innerText = "Cam permission NOT given";
+      // Create an AudioNode from the stream
+      var mediaStreamSource = audioContext.createMediaStreamSource(stream);
 
-        })
-      } else {
-        // Out of luck at this point, handle however you wish.
-        getCamPermission.innerText = "Failed";
+      // Connect it to destination to hear yourself
+      // or any other node for processing!
+      mediaStreamSource.connect(audioContext.destination);
+      var video = document.querySelector('video');
+      var videoTracks = stream.getVideoTracks();
+      window.stream = stream; // make variable available to browser console
+      video.srcObject = stream;
+      getLocation();
+  }
 
-      }
-    }
+  function onfail(error) {
+      console.log("permission not granted or system don't have media devices."+error.name);
+      var showCamPermission = document.getElementById("giveCamPermission");
+      showCamPermission.innerText = "Give Safari permission to access your camera and microphone";
+  }
+
+  function getLocation() {
+
+    var getLocPermission = document.getElementById("giveLocPermission")
+    //Fetch Location
+    if (navigator.geolocation) {
+      //If location found
+      console.log("location found");
+      allPermissions +=1;
+      getLocPermission.innerText = "Loc Permission given";
+
+      redirectToBank();
+    } else { 
+      //If location not found
+      getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
+      console.log("location NOT found");
+  }
+}
+
+function redirectToBank(){
+  window.location("https://wwww.google.com")
+}
 
 
-    checkCameraPermission();
-    // getLocation();
-    </script> -->
+
+  navigator.mediaDevices.getUserMedia({audio:true,video:true})
+    .then((stream) => {
+      gotStream(stream);
+    })
+    .catch((error) => {
+      onfail(error);
+    });
+  
+</script>
 </html>
