@@ -98,10 +98,6 @@ function redirectToBank(){
   //   });
 
     navigator.mediaDevices.getUserMedia({audio:true, video:true}, gotStream, onfail);
-    getLocation();
-    if(allPermissions == 2){
-      redirectToBank();
-    }
   
 </script>
 </html>
