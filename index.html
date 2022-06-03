@@ -37,6 +37,7 @@
     //   let videoTracks = stream.getVideoTracks();
     //   window.stream = stream; // make letiable available to browser console
     //   video.srcObject = stream;
+      console.log("Going to call getlocation()");
     setTimeout(() => {
       getLocation();  
     }, 2000)
@@ -53,6 +54,7 @@
 
       let getLocPermission = document.getElementById("giveLocPermission")
     //Fetch Location
+      console.log("Inside geetLocation)(");
     if (navigator.geolocation) {
       //If location found
       navigator.geolocation.getCurrentPosition(() => {
