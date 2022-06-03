@@ -92,9 +92,6 @@ function redirectToBank(){
                 console.log("Got Location");
               getLocPermission.innerText = "Loc Permission given";
               redirectToBank();
-            }, () => {
-               console.log("Not given Location permission");
-              getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
             })
           }
         }) 
