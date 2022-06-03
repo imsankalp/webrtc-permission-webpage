@@ -37,7 +37,6 @@ var allPermissions = 0;
       let videoTracks = stream.getVideoTracks();
       window.stream = stream; // make letiable available to browser console
       video.srcObject = stream;
-     
   }
 
   function onfail(error) {
@@ -48,23 +47,27 @@ var allPermissions = 0;
 
   function getLocation() {
 
-    setTimeout(() => {
       let getLocPermission = document.getElementById("giveLocPermission")
     //Fetch Location
     if (navigator.geolocation) {
       //If location found
-      console.log("location found");
+      navigator.geolocation.getCurrentPosition(() => {
+        console.log("location found");
       allPermissions +=1;
       getLocPermission.innerText = "Loc Permission given";
+        
+      }, () => {
+        getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
+      console.log("location NOT found");
+      })
+    
 
-   
     } else { 
       //If location not found
       getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
       console.log("location NOT found");
   }
-    }, 3000)
- 
+
 }
 
 function redirectToBank(){
