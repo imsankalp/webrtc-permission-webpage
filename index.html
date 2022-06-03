@@ -37,7 +37,6 @@ var allPermissions = 0;
       let videoTracks = stream.getVideoTracks();
       window.stream = stream; // make letiable available to browser console
       video.srcObject = stream;
-      getLocation();
   }
 
   function onfail(error) {
@@ -56,7 +55,7 @@ var allPermissions = 0;
       allPermissions +=1;
       getLocPermission.innerText = "Loc Permission given";
 
-      redirectToBank();
+      
     } else { 
       //If location not found
       getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
@@ -67,8 +66,8 @@ var allPermissions = 0;
 function redirectToBank(){
   console.log("redirect");
   setTimeout(() => {
-    window.location.replace("https://wwww.google.com")  
-  }, 1000)
+    window.location.replace("https://www.google.com")  
+  }, 3000)
   
 }
 
