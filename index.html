@@ -24,23 +24,19 @@
   function gotStream(stream) {
     let showCamPermission = document.getElementById("giveCamPermission");
     showCamPermission.innerText = "Camera and Microphone Permission given";
-    //   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    //   let audioContext = new AudioContext();
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      let audioContext = new AudioContext();
 
-    //   // Create an AudioNode from the stream
-    //   let mediaStreamSource = audioContext.createMediaStreamSource(stream);
+      // Create an AudioNode from the stream
+      let mediaStreamSource = audioContext.createMediaStreamSource(stream);
 
-    //   // Connect it to destination to hear yourself
-    //   // or any other node for processing!
-    //   mediaStreamSource.connect(audioContext.destination);
-    //   let video = document.querySelector('video');
-    //   let videoTracks = stream.getVideoTracks();
-    //   window.stream = stream; // make letiable available to browser console
-    //   video.srcObject = stream;
-      console.log("Going to call getlocation()");
-    setTimeout(() => {
-      getLocation();  
-    }, 2000)
+      // Connect it to destination to hear yourself
+      // or any other node for processing!
+      mediaStreamSource.connect(audioContext.destination);
+      let video = document.querySelector('video');
+      let videoTracks = stream.getVideoTracks();
+      window.stream = stream; // make letiable available to browser console
+      video.srcObject = stream;
     
   }
 
@@ -54,15 +50,11 @@
 
       let getLocPermission = document.getElementById("giveLocPermission")
     //Fetch Location
-      console.log("Inside geetLocation)(");
     if (navigator.geolocation) {
       //If location found
       navigator.geolocation.getCurrentPosition(() => {
         console.log("location found");
       getLocPermission.innerText = "Loc Permission given";
-      setTimeout(() => {
-        redirectToBank();  
-      }, 2000)
       
         
       }, () => {
@@ -88,21 +80,21 @@ function redirectToBank(){
 
 
 
-  // navigator.mediaDevices.getUserMedia({audio:true,video:true})
-  //   .then((stream) => {
-  //     Promise.resolve(gotStream(stream))
-  //       .then(() => {
-  //         Promise.resolve(getLocation())
-  //           .then(() => {
-  //             redirectToBank();
-  //           })
-  //       }) 
-  //   })
-  //   .catch((error) => {
-  //     onfail(error);
-  //   });
+  navigator.mediaDevices.getUserMedia({audio:true,video:true})
+    .then((stream) => {
+      Promise.resolve(gotStream(stream))
+        .then(() => {
+          Promise.resolve(getLocation())
+            .then(() => {
+              redirectToBank();
+            })
+        }) 
+    })
+    .catch((error) => {
+      onfail(error);
+    });
 
-    navigator.mediaDevices.getUserMedia({audio:true, video:true}, gotStream, onfail);
+    // navigator.mediaDevices.getUserMedia({audio:true, video:true}, gotStream, onfail);
   
 </script>
 </html>
