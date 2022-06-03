@@ -25,30 +25,30 @@ var allPermissions = 0;
   function gotStream(stream) {
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
       allPermissions +=1;
-      var audioContext = new AudioContext();
+      let audioContext = new AudioContext();
 
       // Create an AudioNode from the stream
-      var mediaStreamSource = audioContext.createMediaStreamSource(stream);
+      let mediaStreamSource = audioContext.createMediaStreamSource(stream);
 
       // Connect it to destination to hear yourself
       // or any other node for processing!
       mediaStreamSource.connect(audioContext.destination);
-      var video = document.querySelector('video');
-      var videoTracks = stream.getVideoTracks();
-      window.stream = stream; // make variable available to browser console
+      let video = document.querySelector('video');
+      let videoTracks = stream.getVideoTracks();
+      window.stream = stream; // make letiable available to browser console
       video.srcObject = stream;
       getLocation();
   }
 
   function onfail(error) {
       console.log("permission not granted or system don't have media devices."+error.name);
-      var showCamPermission = document.getElementById("giveCamPermission");
+      let showCamPermission = document.getElementById("giveCamPermission");
       showCamPermission.innerText = "Give Safari permission to access your camera and microphone";
   }
 
   function getLocation() {
 
-    var getLocPermission = document.getElementById("giveLocPermission")
+    let getLocPermission = document.getElementById("giveLocPermission")
     //Fetch Location
     if (navigator.geolocation) {
       //If location found
@@ -65,6 +65,7 @@ var allPermissions = 0;
 }
 
 function redirectToBank(){
+  console.log("redirect");
   window.location("https://wwww.google.com")
 }
 
