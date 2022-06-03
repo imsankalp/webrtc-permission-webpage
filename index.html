@@ -82,15 +82,18 @@ function redirectToBank(){
 
   navigator.mediaDevices.getUserMedia({audio:true,video:true})
     .then((stream) => {
+      console.log("Got mediaDevices");
       Promise.resolve(gotStream(stream))
         .then(() => {
           if(navigator.geolocation){
             let getLocPermission = document.getElementById("giveLocPermission")
 
             navigator.geolocation.getCurrentPosition(() => {
+                console.log("Got Location");
               getLocPermission.innerText = "Loc Permission given";
               redirectToBank();
             }, () => {
+               console.log("Not given Location permission");
               getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
             })
           }
