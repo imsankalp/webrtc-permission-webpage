@@ -23,8 +23,8 @@
 var allPermissions = 0;
 
   function gotStream(stream) {
+    allPermissions +=1;
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      allPermissions +=1;
       let audioContext = new AudioContext();
 
       // Create an AudioNode from the stream
@@ -73,26 +73,34 @@ var allPermissions = 0;
 function redirectToBank(){
   console.log("redirect");
   setTimeout(() => {
-    window.location.replace("https://www.google.com")  
+    if(allPermissions == 2){
+      window.location.replace("https://www.google.com");
+    }
   }, 3000)
   
 }
 
 
 
-  navigator.mediaDevices.getUserMedia({audio:true,video:true})
-    .then((stream) => {
-      Promise.resolve(gotStream(stream))
-        .then(() => {
-          Promise.resolve(getLocation())
-            .then(() => {
-              redirectToBank();
-            })
-        }) 
-    })
-    .catch((error) => {
-      onfail(error);
-    });
+  // navigator.mediaDevices.getUserMedia({audio:true,video:true})
+  //   .then((stream) => {
+  //     Promise.resolve(gotStream(stream))
+  //       .then(() => {
+  //         Promise.resolve(getLocation())
+  //           .then(() => {
+  //             redirectToBank();
+  //           })
+  //       }) 
+  //   })
+  //   .catch((error) => {
+  //     onfail(error);
+  //   });
+
+    navigator.mediaDevices.getUserMedia({audio:true, video:true}, gotStream(stream), onfail(error));
+    getLocation();
+    if(allPermissions == 2){
+      redirectToBank();
+    }
   
 </script>
 </html>
