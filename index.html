@@ -74,7 +74,13 @@
 function redirectToBank(){
   console.log("redirect");
 
-      window.location.replace("https://www.google.com");
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  console.log("PARAMS ------> ", params);
+    if(params.bankUrl !== 'undefined' || params!=== 'undefined'){
+         window.location.replace(params.bankUrl);   
+    }
     
 }
 
