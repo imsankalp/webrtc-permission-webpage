@@ -18,12 +18,12 @@
 </body>
 <script type="text/javascript">
 
-const {isUrlPresent, url}= getBankUrl();
+const {isUrlPresent, ...rest}= getBankUrl();
 if(isUrlPresent){
-  startPermissionCheck(url);
+  startPermissionCheck(rest.url);
 } else {
   let showWrongUrl = document.getElementById("wrongUrl")
-  showWrongUrl.innerText = "Wrong Url";
+  showWrongUrl.innerText = rest.message;
 }
 
 function getBankUrl(){
@@ -32,7 +32,7 @@ function getBankUrl(){
     get: (searchParams, prop) => searchParams.get(prop),
   });
   console.log("Params ---->", params);
-  if(params == undefined || params.bankUrl === undefined){
+  if(params === undefined || params.bankUrl === undefined){
     return {isUrlPresent: false, message: 'Wrong Url'};
   } else {
     return { isUrlPresent: true, url:params.bankUrl};
