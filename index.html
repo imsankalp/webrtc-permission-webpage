@@ -10,105 +10,97 @@
 </head>
 <body>
     <h1 id="getLocation" style = 'text-align: center;'>One Card VKYC</h1>
-    <video id="local" width="400" height= "400" autoplay playsinline></video>
+    <video id="local" width="200" height= "200" autoplay playsinline></video>
+    <p id="redirecting"></p>
     <p id="giveCamPermission"></p>
     <p id="giveLocPermission"></p>
-    <!-- <iframe src="https://webrtc.github.io/samples/src/content/devices/input-output/
-
-    " title="checking" allow="camera; microphone"></iframe> -->
-
+    <p id="wrongUrl"></p>
 </body>
 <script type="text/javascript">
 
+const {isUrlPresent, url}= getBankUrl();
+if(isUrlPresent){
+  startPermissionCheck(url);
+} else {
+  let showWrongUrl = document.getElementById("wrongUrl")
+  showWrongUrl.innerText = "Wrong Url";
+}
 
-  function gotStream(stream) {
-    let showCamPermission = document.getElementById("giveCamPermission");
-    showCamPermission.innerText = "Camera and Microphone Permission given";
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      let audioContext = new AudioContext();
+function getBankUrl(){
+  //Extracting bankUrl from queryParam
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  console.log("Params ---->", params);
+  if(params == undefined || params.bankUrl === undefined){
+    return {isUrlPresent: false, message: 'Wrong Url'};
+  } else {
+    return { isUrlPresent: true, url:params.bankUrl};
+  } 
+}
 
-      // Create an AudioNode from the stream
-      let mediaStreamSource = audioContext.createMediaStreamSource(stream);
+function gotStream(stream) {
 
-      // Connect it to destination to hear yourself
-      // or any other node for processing!
-      mediaStreamSource.connect(audioContext.destination);
-      let video = document.querySelector('video');
-      let videoTracks = stream.getVideoTracks();
-      window.stream = stream; // make letiable available to browser console
-      video.srcObject = stream;
+  let showCamPermission = document.getElementById("giveCamPermission");
+  showCamPermission.innerText = "Camera and Microphone Permission given";
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioContext = new AudioContext();
+
+    // Create an AudioNode from the stream
+    let mediaStreamSource = audioContext.createMediaStreamSource(stream);
+
+    // Connect it to destination to hear yourself
+    // or any other node for processing!
+    mediaStreamSource.connect(audioContext.destination);
+    let video = document.querySelector('video');
+    let videoTracks = stream.getVideoTracks();
+    window.stream = stream; // make letiable available to browser console
+    video.srcObject = stream;
     
   }
 
   function onfail(error) {
+
       console.log("permission not granted or system don't have media devices."+error.name);
       let showCamPermission = document.getElementById("giveCamPermission");
       showCamPermission.innerText = "Give Safari permission to access your camera and microphone";
   }
 
-  function getLocation() {
+function redirectToBank(bankUrl){
 
-      let getLocPermission = document.getElementById("giveLocPermission")
-    //Fetch Location
-    if (navigator.geolocation) {
-      //If location found
-      navigator.geolocation.getCurrentPosition(() => {
-        console.log("location found");
-      getLocPermission.innerText = "Loc Permission given";
-      
-        
-      }, () => {
-        getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
-      console.log("location NOT found");
-      })
-    
-
-    } else { 
-      //If location not found
-      getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
-      console.log("location NOT found");
-  }
-
-}
-
-function redirectToBank(){
   console.log("redirect");
-
-  const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-  });
-  console.log("PARAMS ------> ", params);
-    if(params.bankUrl !== 'undefined' || params!== 'undefined'){
-         window.location.replace(params.bankUrl);   
-    }
-    
+  window.location.replace(bankUrl);   
 }
 
-
+function startPermissionCheck(bankUrl){
 
   navigator.mediaDevices.getUserMedia({audio:true,video:true})
     .then((stream) => {
-      console.log("Got mediaDevices");
       Promise.resolve(gotStream(stream))
         .then(() => {
           if(navigator.geolocation){
             let getLocPermission = document.getElementById("giveLocPermission")
-
+            let showRedirecting = document.getElementById("redirecting");
+            let bankLink = document.createElement('a');
+            bankLink.setAttribute('href', bankUrl);
+            bankLink.innerText = "Click here";
             navigator.geolocation.getCurrentPosition(() => {
-                console.log("Got Location");
               getLocPermission.innerText = "Loc Permission given";
-              redirectToBank();
+              showRedirecting.innerText = "Redirecting to bank url. If not redirected then ";
+              showRedirecting.appendChild(bankLink)
+              setTimeout(() => {
+                redirectToBank(bankUrl);
+              }, 5000)
             }, () => {
-                getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
+              getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
             })
           }
         }) 
     })
     .catch((error) => {
       onfail(error);
-    });
-
-    // navigator.mediaDevices.getUserMedia({audio:true, video:true}, gotStream, onfail);
+  });
+}
   
 </script>
 </html>
