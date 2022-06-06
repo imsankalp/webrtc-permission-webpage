@@ -78,7 +78,7 @@ function redirectToBank(){
     get: (searchParams, prop) => searchParams.get(prop),
   });
   console.log("PARAMS ------> ", params);
-    if(params.bankUrl !== 'undefined' || params!=== 'undefined'){
+    if(params.bankUrl !== 'undefined' || params!== 'undefined'){
          window.location.replace(params.bankUrl);   
     }
     
