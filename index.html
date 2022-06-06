@@ -96,6 +96,10 @@ function startPermissionCheck(bankUrl){
               }, 5000)
             }, () => {
               getLocPermission.innerText = "Give Permission to Safari Browser to allow location Access.";
+              let retryLink = document.createElement('a');
+              retryLink.setAttribute('href', window.location.href);
+              retryLink.innerText("Retry");
+              getLocPermission.appendChild(retryLink);
             })
           }
         }) 
