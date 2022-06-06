@@ -84,7 +84,8 @@ function startPermissionCheck(bankUrl){
             let bankLink = document.createElement('a');
             bankLink.setAttribute('href', bankUrl);
             bankLink.innerText = "Click here";
-            navigator.geolocation.getCurrentPosition(() => {
+            navigator.geolocation.getCurrentPosition((loc) => {
+                console.log("Location ---> ",loc)
               getLocPermission.innerText = "Loc Permission given";
               showRedirecting.innerText = "Redirecting to bank url. If not redirected then ";
               showRedirecting.appendChild(bankLink)
