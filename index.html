@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VKYC</title>
+    <title>Document</title>
     <script  src="./adapter.js"></script>
 
 </head>
@@ -20,8 +20,10 @@
 
 const {isUrlPresent, ...rest}= getBankUrl();
 if(isUrlPresent){
+  console.log("Rest Param ====> ", rest.url);
   startPermissionCheck(rest.url);
 } else {
+  console.log("");
   let showWrongUrl = document.getElementById("wrongUrl")
   showWrongUrl.innerText = rest.message;
 }
@@ -31,11 +33,11 @@ function getBankUrl(){
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
-  console.log("Params ---->", params);
-  if(params === undefined || params.bankUrl === undefined || params === null){
-    return {isUrlPresent: false, message: 'Wrong Url'};
+  console.log("Params ---->", params.bankUrl);
+  if(params && params.bankUrl){
+    return {isUrlPresent: true, url: params.bankUrl};
   } else {
-    return { isUrlPresent: true, url:params.bankUrl};
+    return { isUrlPresent: false, message: "Wrong Url"};
   } 
 }
 
@@ -85,7 +87,7 @@ function startPermissionCheck(bankUrl){
             bankLink.setAttribute('href', bankUrl);
             bankLink.innerText = "Click here";
             navigator.geolocation.getCurrentPosition((loc) => {
-                console.log("Location ---> ",loc)
+              console.log("Location -----> ", loc);
               getLocPermission.innerText = "Loc Permission given";
               showRedirecting.innerText = "Redirecting to bank url. If not redirected then ";
               showRedirecting.appendChild(bankLink)
